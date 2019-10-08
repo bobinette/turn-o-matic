@@ -61,6 +61,7 @@ func (s *Server) HandleDisplay(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) Desk(w http.ResponseWriter, r *http.Request) {
+	log.Println(r.URL)
 	if r.URL.Path != "/desk" {
 		http.Error(w, "Not found", http.StatusNotFound)
 		return

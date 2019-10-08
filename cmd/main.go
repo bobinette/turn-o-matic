@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/websocket"
 
@@ -11,6 +12,9 @@ import (
 
 func main() {
 	addr := ":8098"
+	if os.Getenv("ENV") == "prod" {
+		addr = "127.0.0.1:8098"
+	}
 
 	// Default
 	upgrader := websocket.Upgrader{}
