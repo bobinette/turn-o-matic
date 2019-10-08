@@ -33,7 +33,12 @@ func (s *Server) HandleDisplay(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token := "token"
+	token := r.URL.Query().Get("token")
+	if token == "" {
+		conn.WriteMessage(websocket.CloseMessage, []byte("Empty token"))
+		return
+	}
+
 	ch, ok := s.counter[token]
 	if !ok {
 		conn.WriteMessage(websocket.CloseMessage, []byte("Invalid token"))
@@ -74,7 +79,12 @@ func (s *Server) HandleDesk(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token := "token"
+	token := r.URL.Query().Get("token")
+	if token == "" {
+		conn.WriteMessage(websocket.CloseMessage, []byte("Empty token"))
+		return
+	}
+
 	if _, ok := s.counter[token]; ok {
 		conn.WriteMessage(websocket.CloseMessage, []byte("Token already in use"))
 		return

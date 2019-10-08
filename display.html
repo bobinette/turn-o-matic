@@ -8,8 +8,13 @@
                 var log = document.getElementById('log');
 
                 if (window['WebSocket']) {
+                    var match = window.location.search.match(/token=([a-z]+)/);
+                    var token = '';
+                    if (match) {
+                        token = match[1];
+                    }
                     conn = new WebSocket(
-                        'ws://' + document.location.host + '/display-ws',
+                        'ws://' + document.location.host + '/display-ws?token=' + token
                     );
                     conn.onclose = function(evt) {
                         log.innerHTML = '<b>Connection closed.</b>';

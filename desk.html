@@ -22,8 +22,13 @@
                 };
 
                 if (window['WebSocket']) {
+                    var match = window.location.search.match(/token=([a-z]+)/);
+                    var token = '';
+                    if (match) {
+                        token = match[1];
+                    }
                     conn = new WebSocket(
-                        'ws://' + document.location.host + '/desk-ws',
+                        'ws://' + document.location.host + '/desk-ws?token=' + token
                     );
                     conn.onclose = function(evt) {
                         log.innerHTML = '<b>Connection closed.</b>';
