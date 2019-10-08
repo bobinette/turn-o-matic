@@ -85,13 +85,13 @@ func (s *Server) HandleDesk(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if _, ok := s.counter[token]; ok {
-		conn.WriteMessage(websocket.CloseMessage, []byte("Token already in use"))
-		return
-	}
-
 	if s.counter == nil {
 		s.counter = make(map[string]chan int)
+	}
+
+	if len(s.counter) > 10 {
+		conn.WriteMessage(websocket.CloseMessage, []byte("Oops, too many desk/client connections"))
+		return
 	}
 
 	ch := make(chan int, 0)
